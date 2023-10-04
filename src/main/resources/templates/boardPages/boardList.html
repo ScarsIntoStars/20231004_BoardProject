@@ -4,7 +4,7 @@
     <th:block th:replace="~{component/config :: config}"></th:block>
 </head>
 <body>
-<div th:replace="~{component/header :: haader}"></div>
+<div th:replace="~{component/header :: header}"></div>
 <div th:replace="~{component/nav :: nav}"></div>
 
 <div class="container">
@@ -18,7 +18,7 @@
                     <th>작성시간</th>
                     <th>조회수</th>
                 </tr>
-                <tr th:each="board: ${boardDTOList}">
+                <tr th:each="board: ${boardList}">
                     <td th:text="${board.id}"></td>
                     <td th:text="${board.boardTitle}"></td>
                     <td th:text="${board.boardWriter}"></td>
@@ -30,7 +30,7 @@
     </div>
 </div>
 
-<div th:replace="~{component/footer :: fouter}"></div>
+<div th:replace="~{component/footer :: footer}"></div>
 
 </body>
 </html>

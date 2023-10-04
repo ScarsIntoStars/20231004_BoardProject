@@ -33,7 +33,6 @@ public class BoardService {
         // boardEntityList.forEach(boardEntity -> {
         // boardDTOList.add(BoardDTO.saveToDTO(boardEntity);
         // )}
-        System.out.println(boardDTOList);
 
         return boardDTOList;
     }
