@@ -4,10 +4,13 @@ import comicia.board.dto.BoardDTO;
 import comicia.board.entity.BoardEntity;
 import comicia.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +24,7 @@ public class BoardService {
     }
 
     public List<BoardDTO> findAll() {
-        List<BoardEntity> boardEntityList = boardRepository.findAll();
+        List<BoardEntity> boardEntityList = boardRepository.findAll(Sort.by(Sort.Direction.DESC, "id")); // 맨 뒤 id는 엔티티의 이름과 같아야 함
         List<BoardDTO> boardDTOList = new ArrayList<>();
         for (BoardEntity boardEntity : boardEntityList) {
             BoardDTO boardDTO = BoardDTO.saveToDTO(boardEntity);
@@ -35,5 +38,26 @@ public class BoardService {
         // )}
 
         return boardDTOList;
+    }
+
+    public BoardDTO findById(Long id) {
+        Optional<BoardEntity> optionalBoardEntity = boardRepository.findById(id);
+        if(optionalBoardEntity.isPresent()) {
+            BoardEntity boardEntity = optionalBoardEntity.get();
+            return BoardDTO.saveToDTO(boardEntity);
+        } else {
+            return null;
+        }
+    }
+
+
+    /**
+     * 서비스 클래스 매서드에서 @Transactinal 붙이는 경우
+     * 1. jpql로 작성된 매서드 호출할 때
+     * 2. 부모엔티티에서 자식엔티티를 바로 호출할 때
+     * */
+    @Transactional // jpql을 사용하면 얘를 붙여줘야 됨
+    public void increaseHits(Long id) {
+        boardRepository.increaseHits(id);
     }
 }

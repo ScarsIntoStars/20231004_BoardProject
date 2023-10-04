@@ -36,8 +36,11 @@ public class BoardController {
     }
 
     @GetMapping("/board/{id}")
-    public String detail(@PathVariable("id") Long id) {
-        System.out.println("넘어온 id : " + id);
-        return "index";
+    public String detail(@PathVariable("id") Long id, Model model) {
+        boardService.increaseHits(id); // 조회수증가
+        BoardDTO boardDTO = boardService.findById(id);
+        model.addAttribute(boardDTO);
+        return "boardPages/boardDetail";
     }
+
 }

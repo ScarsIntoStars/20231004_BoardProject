@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{component/config :: config}"></th:block>
+</head>
+<body>
+<div th:replace="~{component/header :: header}"></div>
+<div th:replace="~{component/nav :: nav}"></div>
+
+<div class="container">
+    <div class="card p-5 m-5">
+
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">글 제목</label>
+                <input type="text" class="form-control" id="exampleFormControlInput1" readonly th:value="${boardDTO.boardTitle}">
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">글 내용</label>
+                <input class="form-control" id="exampleFormControlTextarea1" readonly th:value="${boardDTO.boardContents}" rows="3">
+            </div>
+
+    </div>
+
+    <div th:replace="~{component/footer :: footer}"></div>
+
+</body>
+</html>
