@@ -3,6 +3,8 @@ package comicia.board.dto;
 import comicia.board.entity.BoardEntity;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 public class BoardDTO {
     private Long id;
@@ -11,7 +13,7 @@ public class BoardDTO {
     private String boardPassword;
     private String boardContents;
     private int boardHits;
-    private String createdAt;
+    private LocalDateTime createdAt;
 
 
 
@@ -23,7 +25,7 @@ public class BoardDTO {
         boardDTO.setBoardPassword(boardEntity.getBoardPass());
         boardDTO.setBoardContents(boardEntity.getBoardContents());
         boardDTO.setBoardHits(boardEntity.getBoardHits());
-
+        boardDTO.setCreatedAt(boardEntity.getCreatedAt());
         return boardDTO;
     }
 

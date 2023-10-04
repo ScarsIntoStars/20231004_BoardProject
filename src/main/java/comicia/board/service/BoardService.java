@@ -27,6 +27,14 @@ public class BoardService {
             BoardDTO boardDTO = BoardDTO.saveToDTO(boardEntity);
             boardDTOList.add(boardDTO);
         }
+        // boardEntity는 반복변수(entity 객체)
+
+        // 요즘 스타일은 아래쪽
+        // boardEntityList.forEach(boardEntity -> {
+        // boardDTOList.add(BoardDTO.saveToDTO(boardEntity);
+        // )}
+
+
         return boardDTOList;
     }
 }

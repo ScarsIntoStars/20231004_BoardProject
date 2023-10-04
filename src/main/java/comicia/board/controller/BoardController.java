@@ -28,7 +28,7 @@ public class BoardController {
         return "index";
     }
 
-    @GetMapping("/board")
+    @GetMapping
     public String findAll(Model model){
         List boardDTOList = boardService.findAll();
         model.addAttribute("boardDTOList", boardDTOList);
