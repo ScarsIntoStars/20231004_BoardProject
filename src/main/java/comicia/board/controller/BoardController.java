@@ -42,9 +42,19 @@ public class BoardController {
     }
 
     @GetMapping("/board/update")
-    public String update(@RequestBody Long id){
-        System.out.println("아이디 값 잘 들어왔느뇨? : " + id);
-        return "index";
+    public String update(@ModelAttribute BoardDTO boardDTO, Model model){
+        Long id = boardDTO.getId();
+        BoardDTO boardOne = boardService.findById(id);
+        model.addAttribute("boardOne", boardOne);
+        System.out.println(boardOne);
+        return "boardPages/boardUpdate";
+    }
+
+    @PostMapping("/board/update")
+    public String update(@ModelAttribute BoardDTO boardDTO) {
+        System.out.println("컨트롤러에 값이 잘 들어오는가?" + boardDTO);
+        boardService.update(boardDTO);
+        return "boardPages/boardList";
     }
 
 }

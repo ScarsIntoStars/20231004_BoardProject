@@ -60,4 +60,10 @@ public class BoardService {
     public void increaseHits(Long id) {
         boardRepository.increaseHits(id);
     }
+
+    public void update(BoardDTO boardDTO) {
+        System.out.println("서비스로 값이 잘 들어오는가? " + boardDTO);
+        BoardEntity boardEntityUpdate = BoardEntity.saveToEntity(boardDTO);
+        boardRepository.save(boardEntityUpdate);
+    }
 }

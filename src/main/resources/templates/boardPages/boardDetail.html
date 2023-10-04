@@ -21,6 +21,10 @@
                    rows="3">
         </div>
 
+        <form action="/board/update">
+            <input type="hidden" name="id" th:value="${boardDTO.id}">
+            <input type="submit" value="수정">
+        </form>
     </div>
 </div>
 <div th:replace="~{component/footer :: footer}"></div>
