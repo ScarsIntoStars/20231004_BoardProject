@@ -19,7 +19,7 @@
                 </tr>
                 <tr th:each="board: ${boardDTOList}">
                     <td>
-                        <a th:href="@{/board/${board.id}}" th:text="${board.id}"></a>
+                        <a th:href="@{|/board/${board.id}|}" th:text="${board.id}"></a>
                     </td>
                     <td th:text="${board.boardTitle}"></td>
                     <td th:text="${board.boardWriter}"></td>

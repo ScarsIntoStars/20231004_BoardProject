@@ -11,6 +11,9 @@ public class BoardDTO {
     private String boardPassword;
     private String boardContents;
     private int boardHits;
+    private String createdAt;
+
+
 
     public static BoardDTO saveToDTO(BoardEntity boardEntity) {
         BoardDTO boardDTO = new BoardDTO();
@@ -20,6 +23,7 @@ public class BoardDTO {
         boardDTO.setBoardPassword(boardEntity.getBoardPass());
         boardDTO.setBoardContents(boardEntity.getBoardContents());
         boardDTO.setBoardHits(boardEntity.getBoardHits());
+
         return boardDTO;
     }
 

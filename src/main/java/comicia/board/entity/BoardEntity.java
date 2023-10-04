@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Setter
 @Getter
 @Table(name="board_table")
-public class BoardEntity {
+public class BoardEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,7 +27,7 @@ public class BoardEntity {
     @Column(length = 500)
     private String boardContents;
 
-    @Column()
+    @Column
     private int boardHits;
 
 
