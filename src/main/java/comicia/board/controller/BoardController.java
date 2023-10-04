@@ -5,9 +5,7 @@ import comicia.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,6 +39,12 @@ public class BoardController {
         BoardDTO boardDTO = boardService.findById(id);
         model.addAttribute(boardDTO);
         return "boardPages/boardDetail";
+    }
+
+    @GetMapping("/board/update")
+    public String update(@RequestBody Long id){
+        System.out.println("아이디 값 잘 들어왔느뇨? : " + id);
+        return "index";
     }
 
 }
