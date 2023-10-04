@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{component/config :: config}"></th:block>
+</head>
+<body>
+<div th:replace="~{component/header :: haader}"></div>
+<div th:replace="~{component/nav :: nav}"></div>
+
+<div class="container">
+    <div class="card m-5 p-5">
+        <div class="table">
+            <table>
+                <tr>
+                    <th>글 번호</th>
+                    <th>글 제목</th>
+                    <th>작성자</th>
+                    <th>조회수</th>
+                </tr>
+                <tr th:each="board: ${boardDTOList}">
+                    <td>
+                        <a th:href="@{/board/${board.id}}" th:text="${board.id}"></a>
+                    </td>
+                    <td th:text="${board.boardTitle}"></td>
+                    <td th:text="${board.boardWriter}"></td>
+                    <td th:text="${board.boardHits}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{component/footer :: fouter}"></div>
+
+</body>
+</html>
