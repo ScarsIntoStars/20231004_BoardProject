@@ -28,11 +28,11 @@ public class BoardController {
         return "index";
     }
 
-    @GetMapping
+    @GetMapping("/board/list")
     public String findAll(Model model){
         List boardDTOList = boardService.findAll();
         model.addAttribute("boardDTOList", boardDTOList);
-        return "/boardPages/boardList";
+        return "boardPages/boardList";
     }
 
     @GetMapping("/board/{id}")
