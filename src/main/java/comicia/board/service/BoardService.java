@@ -3,6 +3,7 @@ package comicia.board.service;
 import comicia.board.dto.BoardDTO;
 import comicia.board.entity.BoardEntity;
 import comicia.board.repository.BoardRepository;
+import comicia.board.util.UtilClass;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,10 +27,18 @@ public class BoardService {
     }
 
     public Page<BoardDTO> findAll(int page) {
+        page = page - 1; // db에서 page가 0부터 시작하기 때문
         int pageLimit = 5;
         Page<BoardEntity> boardEntities = boardRepository.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "id")));
-
-        return null;
+        Page<BoardDTO> boardList = boardEntities.map(boardEntity ->
+                BoardDTO.builder()
+                        .id(boardEntity.getId())
+                        .boardTitle(boardEntity.getBoardTitle())
+                        .boardWriter(boardEntity.getBoardWriter())
+                        .boardHits(boardEntity.getBoardHits())
+                        .createdAt(UtilClass.dateTimeFormat(boardEntity.getCreatedAt()))
+                        .build());
+        return boardList;
     }
 
 
