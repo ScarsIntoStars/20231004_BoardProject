@@ -3,6 +3,7 @@ package comicia.board.controller;
 import comicia.board.dto.BoardDTO;
 import comicia.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,27 +18,37 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("/board/save")
-    public String boardSave(){
+    public String boardSave() {
         return "/boardPages/boardSave";
     }
 
     @PostMapping("/board/save")
-    public String save(BoardDTO boardDTO){
+    public String save(BoardDTO boardDTO) {
         Long savedId = boardService.save(boardDTO);
         System.out.println(savedId);
         return "index";
     }
 
+    /*
+        rest api
+        /board/10 => 10번 글
+        /board/20 => 20번 글
+        /member/5 => 5번 회원
+
+        3페이지에 있는 15번 글
+        /board/3/15 => 페이지값을 경로를 넣는 것은 부합함(오류가 새기거나 문제가 생기지는 않는다)
+        /board/15?page=3 => 기존대로 쿼리스트링 방식을 씀
+    * */
+
     @GetMapping("/board/list")
-    public String findAll(Model model){
-        List<BoardDTO> boardDTOList = boardService.findAll();
+    public String findAll(Model model, @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
+        Page<BoardDTO> boardDTOList = boardService.findAll(page); // 리스트타입이 아니라 페이지타입
         model.addAttribute("boardList", boardDTOList);
         return "boardPages/boardList";
     }
 
     @GetMapping("/board/{id}")
     public String detail(@PathVariable("id") Long id, Model model) {
-        System.out.println("컨트롤러!!! " + id);
         boardService.increaseHits(id); // 조회수증가
         BoardDTO boardDTO = boardService.findById(id);
         model.addAttribute("board", boardDTO);
@@ -45,7 +56,7 @@ public class BoardController {
     }
 
     @GetMapping("/board/update")
-    public String update(@ModelAttribute BoardDTO boardDTO, Model model){
+    public String update(@ModelAttribute BoardDTO boardDTO, Model model) {
         Long id = boardDTO.getId();
         BoardDTO boardOne = boardService.findById(id);
         model.addAttribute("boardOne", boardOne);

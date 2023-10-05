@@ -4,6 +4,8 @@ import comicia.board.dto.BoardDTO;
 import comicia.board.entity.BoardEntity;
 import comicia.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,13 +25,21 @@ public class BoardService {
         return savedId;
     }
 
-    public List<BoardDTO> findAll() {
-        List<BoardEntity> boardEntityList = boardRepository.findAll(Sort.by(Sort.Direction.DESC, "id")); // 맨 뒤 id는 엔티티의 이름과 같아야 함
-        List<BoardDTO> boardDTOList = new ArrayList<>();
-        for (BoardEntity boardEntity : boardEntityList) {
-            BoardDTO boardDTO = BoardDTO.saveToDTO(boardEntity);
-            boardDTOList.add(boardDTO);
-        }
+    public Page<BoardDTO> findAll(int page) {
+        int pageLimit = 5;
+        Page<BoardEntity> boardEntities = boardRepository.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "id")));
+
+        return null;
+    }
+
+
+
+//        List<BoardEntity> boardEntityList = boardRepository.findAll(Sort.by(Sort.Direction.DESC, "id")); // 맨 뒤 id는 엔티티의 이름과 같아야 함
+//        List<BoardDTO> boardDTOList = new ArrayList<>();
+//        for (BoardEntity boardEntity : boardEntityList) {
+//            BoardDTO boardDTO = BoardDTO.saveToDTO(boardEntity);
+//            boardDTOList.add(boardDTO);
+//        }
         // boardEntity는 반복변수(entity 객체)
 
         // 요즘 스타일은 아래쪽
@@ -37,8 +47,8 @@ public class BoardService {
         // boardDTOList.add(BoardDTO.saveToDTO(boardEntity);
         // )}
 
-        return boardDTOList;
-    }
+//        return boardDTOList;
+//    }
 
     public BoardDTO findById(Long id) {
         Optional<BoardEntity> optionalBoardEntity = boardRepository.findById(id);

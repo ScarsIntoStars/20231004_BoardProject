@@ -2,12 +2,18 @@ package comicia.board.dto;
 
 import comicia.board.entity.BoardEntity;
 import comicia.board.util.UtilClass;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Data
+@Builder // 객체를 만들 때 코드스타일 중 하나, 기본생성자가 무력화가 됨
+@NoArgsConstructor // 얘를 쓰면 빌더가 무력화가 됨
+@AllArgsConstructor // 그래서 마지막으로 얘도 추가를 해서 해결
 public class BoardDTO {
     private Long id;
     private String boardWriter;
@@ -20,17 +26,29 @@ public class BoardDTO {
 
 
     public static BoardDTO saveToDTO(BoardEntity boardEntity) {
-        BoardDTO boardDTO = new BoardDTO();
-        boardDTO.setId(boardEntity.getId());
-        boardDTO.setBoardTitle(boardEntity.getBoardTitle());
-        boardDTO.setBoardWriter(boardEntity.getBoardWriter());
-        boardDTO.setBoardPass(boardEntity.getBoardPass());
-        boardDTO.setBoardContents(boardEntity.getBoardContents());
-        boardDTO.setBoardHits(boardEntity.getBoardHits());
-        ////boardDTO.setCreatedAt(boardEntity.getCreatedAt());
-//        String formattedDate = boardEntity.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-//        boardDTO.setCreatedAt(formattedDate);
-        boardDTO.setCreatedAt(UtilClass.dateTimeFormat(boardEntity.getCreatedAt()));
+//        BoardDTO boardDTO = new BoardDTO();
+//        boardDTO.setId(boardEntity.getId());
+//        boardDTO.setBoardTitle(boardEntity.getBoardTitle());
+//        boardDTO.setBoardWriter(boardEntity.getBoardWriter());
+//        boardDTO.setBoardPass(boardEntity.getBoardPass());
+//        boardDTO.setBoardContents(boardEntity.getBoardContents());
+//        boardDTO.setBoardHits(boardEntity.getBoardHits());
+//        ////boardDTO.setCreatedAt(boardEntity.getCreatedAt());
+////        String formattedDate = boardEntity.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+////        boardDTO.setCreatedAt(formattedDate);
+//        boardDTO.setCreatedAt(UtilClass.dateTimeFormat(boardEntity.getCreatedAt()));
+
+        // 빌더사용, setter가 없음
+        BoardDTO boardDTO = BoardDTO.builder()
+                .id(boardEntity.getId())
+                .boardWriter(boardEntity.getBoardWriter())
+                .boardTitle(boardEntity.getBoardTitle())
+                .boardPass(boardEntity.getBoardPass())
+                .boardContents(boardEntity.getBoardContents())
+                .boardHits(boardEntity.getBoardHits())
+                .createdAt(UtilClass.dateTimeFormat(boardEntity.getCreatedAt()))
+                .build();
+
         return boardDTO;
     }
 
