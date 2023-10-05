@@ -39,7 +39,7 @@ public class BoardController {
     public String detail(@PathVariable("id") Long id, Model model) {
         boardService.increaseHits(id); // 조회수증가
         BoardDTO boardDTO = boardService.findById(id);
-        model.addAttribute(boardDTO);
+        model.addAttribute("board", boardDTO);
         return "boardPages/boardDetail";
     }
 
@@ -73,4 +73,10 @@ public class BoardController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    // 악시오스로 업데이트 하는 방법. 놓침
+//    @PutMapping("/{id}")
+//    public ResponseEntity update(@RequestBody BoardDTO boardDTO) {
+//        boardService.update(boardDTO);
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 }

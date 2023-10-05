@@ -8,7 +8,7 @@
 <div th:replace="~{component/nav :: nav}"></div>
 
 <div class="container">
-    <div class="card p-5 m-5 border border-primary border-3"  >
+    <div class="card p-5 m-5 border border-primary border-3">
         <form action="/board/update" method="post">
             <input type="hidden" name="id" th:value="${boardOne.id}">
             <input type="hidden" name="boardWriter" th:value="${boardOne.boardWriter}">
@@ -18,17 +18,45 @@
 
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">글 제목</label>
-                <input type="text" class="form-control" id="exampleFormControlInput1" name=boardTitle th:value="${boardOne.boardTitle}">
+                <input type="text" class="form-control" id="exampleFormControlInput1" name=boardTitle
+                       th:value="${boardOne.boardTitle}">
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlTextarea1" class="form-label">글 내용</label>
-                <input class="form-control" id="exampleFormControlTextarea1" name=boardContents th:value="${boardOne.boardContents}" rows="3">
+                <input class="form-control" id="exampleFormControlTextarea1" name=boardContents
+                       th:value="${boardOne.boardContents}" rows="3">
             </div>
-            <input type="submit" value="수정">
+            <input type="submit" value="수정" onClick="board_update()">
         </form>
     </div>
 </div>
 <div th:replace="~{component/footer :: footer}"></div>
 
 </body>
+<script th:inline="javascript">
+    const board_update = () => {
+        const id = document.querySelector(`[name="id"]`).value;
+        const boardWriter = document.querySelector(`[name="boardWriter"]`).value;
+        const boardTitle = document.querySelector(`[name="boardTitle"]`).value;
+        const boardPass = document.querySelector(`[name="boardPass"]`).value;
+        const boardHits = document.querySelector(`[name="boardHits"]`).value;
+        const boardContents = document.querySelector(`[name="boardContents"]`).value;
+        axios({
+            method: "put",
+            url: `/board/${id}`,
+            data: {
+                id: id,
+                boardTitle: boardTitle,
+                boardWriter: boardWriter,
+                boardContents: boardContents,
+                boardHits: boardHits,
+                boardPass: boardPass
+            }
+        }).then(res => {
+            location.href = `/board/${id}`;
+        }).catch(err => {
+            alert("수정실패")
+        });
+    }
+</script>
 </html>

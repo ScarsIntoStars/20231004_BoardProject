@@ -13,16 +13,16 @@
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">글 제목</label>
             <input type="text" class="form-control" id="exampleFormControlInput1" readonly
-                   th:value="${boardDTO.boardTitle}">
+                   th:value="${board.boardTitle}">
         </div>
         <div class="mb-3">
             <label for="exampleFormControlTextarea1" class="form-label">글 내용</label>
-            <input class="form-control" id="exampleFormControlTextarea1" readonly th:value="${boardDTO.boardContents}"
+            <input class="form-control" id="exampleFormControlTextarea1" readonly th:value="${board.boardContents}"
                    rows="3">
         </div>
         <div class="card">
             <form action="/board/update">
-                <input type="hidden" name="id" th:value="${boardDTO.id}">
+                <input type="hidden" name="id" th:value="${board.id}">
                 <input type="submit" value="수정">
             </form>
         </div>
@@ -52,25 +52,28 @@
             <input type="button" onclick="pass_check('${type}')" value="확인">`;
     }
 
+
     const pass_check = (type) => {
         console.log(`pass_check type: ${type}`);
         const passInput = document.getElementById("board-pass").value;
-        const passDB = [[$boardDTO.boardPass]];
-        const id = [[${boardDTO.id}]]
-        if (passInput == "update") {
-            location.href = `/board/update/{id}`;
-        } else if(type == "delete") {
-            // location.href = `/board/delete/{id}`;
-            axios({
-                method: "delete",
-                url: `/board/{$id}`
-            }).then(res => {
-                location.href = "/board";
-            }).catch(err => {
-                alert("삭제 실패");
-            });
+        const passDB = [[${board.boardPass}]];
+        const id = [[${board.id}]];
+        if (passInput == passDB) {
+            if (type == "update") {
+                location.href = `/board/update/${id}`;
+            } else if (type == "delete") {
+                // location.href = `/board/delete/${id}`;
+                axios({
+                    method: "delete",
+                    url: `/board/${id}`
+                }).then(res => {
+                    location.href = "/board";
+                }).catch(err => {
+                    alert("삭제 실패");
+                });
+            }
         } else {
-            alert("비밀번호가 일치하지 않습니다.")
+            alert("비밀번호가 일치하지 않습니다.");
         }
     }
 
