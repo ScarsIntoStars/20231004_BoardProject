@@ -37,6 +37,7 @@ public class BoardController {
 
     @GetMapping("/board/{id}")
     public String detail(@PathVariable("id") Long id, Model model) {
+        System.out.println("컨트롤러!!! " + id);
         boardService.increaseHits(id); // 조회수증가
         BoardDTO boardDTO = boardService.findById(id);
         model.addAttribute("board", boardDTO);
