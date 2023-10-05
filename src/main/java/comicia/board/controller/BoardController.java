@@ -3,6 +3,8 @@ package comicia.board.controller;
 import comicia.board.dto.BoardDTO;
 import comicia.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +57,20 @@ public class BoardController {
         System.out.println("컨트롤러에 값이 잘 들어오는가?" + boardDTO);
         boardService.update(boardDTO);
         return "boardPages/boardList";
+    }
+
+    // 주소료 요청
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable("id") Long id) {
+        boardService.delete(id);
+        return "redirect/board";
+    }
+
+    // axiow로 delete요청
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteByAxios(@PathVariable("id") Long id) {
+        boardService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
