@@ -27,7 +27,7 @@ public class BoardDTO {
         boardDTO.setBoardPassword(boardEntity.getBoardPass());
         boardDTO.setBoardContents(boardEntity.getBoardContents());
         boardDTO.setBoardHits(boardEntity.getBoardHits());
-////        boardDTO.setCreatedAt(boardEntity.getCreatedAt());
+        ////boardDTO.setCreatedAt(boardEntity.getCreatedAt());
 //        String formattedDate = boardEntity.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 //        boardDTO.setCreatedAt(formattedDate);
         boardDTO.setCreatedAt(UtilClass.dateTimeFormat(boardEntity.getCreatedAt()));

@@ -20,14 +20,71 @@
             <input class="form-control" id="exampleFormControlTextarea1" readonly th:value="${boardDTO.boardContents}"
                    rows="3">
         </div>
-
+        <div class="card">
         <form action="/board/update">
             <input type="hidden" name="id" th:value="${boardDTO.id}">
             <input type="submit" value="수정">
         </form>
+        </div>
+        <div id="btn-area">
+            <button class="btn btn-primary" onclick="list_fn()">목록</button>
+            <!-- 수정 또는 삭제 버튼을 클릭하면 비밀번호를 입력하는 input 창이 노출되고
+                비밀번호가 일치하면 수정페이지로 이동 또는 삭제처리를 진행함-->
+            <button class="btn btn-warning" onclick="update_fn()">수정</button>
+            <button class="btn btn-danger" onclick="delete_fn()">수정</button>
+        </div>
+        <div id="update-pass-check" style="display: none">
+            <input type="text" id="board-pass" plass="비밀번호">
+            <input type="button" onclick="update_pass_check()" value="확인">
+        </div>
+
+        <div id="delete-pass-check" style="display: none">
+            <input type="text" id="delete-board-pass" plass="비밀번호">
+            <input type="button" onclick="delete_pass_check()" value="확인">
+        </div>
     </div>
 </div>
 <div th:replace="~{component/footer :: footer}"></div>
 
 </body>
+<script th:inline="javascript">
+    // const delete_fn = () => {
+    //     const deleteButton = document.getElementById("deleteButton")
+    //     deleteButton.type = "text";
+    // }
+    const update_fn = () => {
+        const passCheckInput = document.getElementById("update-pass-check");
+        passCheckInput.style.display = "block";
+    }
+
+    const update_pass_check = () => {
+        const passInput = document.getElementById("board-pass").value;
+        const passDB = [[$board.boardPass]];
+        const id = [[${board.id}]]
+        if (passInput == passDB) {
+            location.href = `/board/update/{id}`;
+        } else {
+            alert("비밀번호가 일치하지 않습니다.")
+        }
+    }
+
+
+
+    const delete_fn = () => {
+        const passCheckInput = document.getElementById("delete-pass-check");
+        passCheckInput.style.display = "block";
+    }
+
+    const delete_pass_check = () => {
+        const passInput = document.getElementById("delete-board-pass").value;
+        const passDB = [[$board.boardPass]];
+        const id = [[${board.id}]]
+        if (passInput == passDB) {
+            location.href = `/board/delete/{id}`;
+        } else {
+            alert("비밀번호가 일치하지 않습니다.")
+        }
+    }
+
+</script>
 </html>
