@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -23,7 +24,7 @@ public class BoardController {
     }
 
     @PostMapping("/board/save")
-    public String save(BoardDTO boardDTO) {
+    public String save(BoardDTO boardDTO) throws IOException {
         Long savedId = boardService.save(boardDTO);
         System.out.println(savedId);
         return "index";
@@ -41,16 +42,21 @@ public class BoardController {
     * */
 
     @GetMapping("/board")
-    public String findAll(Model model, @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
-        Page<BoardDTO> boardDTOList = boardService.findAll(page); // 리스트타입이 아니라 페이지타입
-        model.addAttribute("boardList", boardDTOList);
+    public String findAll(Model model, @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+                                        @RequestParam(value="type", required = false, defaultValue = "boardTitle") String type,
+                                        @RequestParam(value = "q", required = false, defaultValue = "") String q){
+        Page<BoardDTO> boardDTOList = boardService.findAll(page, type, q); // 리스트타입이 아니라 페이지타입
         // 목록 하단에 보여줄 페이지 번호
         int blockLimit = 3;
         int startPage = (((int) (Math.ceil((double) page / blockLimit))) - 1) * blockLimit + 1;
         int endPage = ((startPage + blockLimit - 1)) < boardDTOList.getTotalPages() ? startPage + blockLimit - 1 : boardDTOList.getTotalPages();
 
+        model.addAttribute("boardList", boardDTOList);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
+        model.addAttribute("page", page);
+        model.addAttribute("type", type);
+        model.addAttribute("q", q);
         return "boardPages/boardList";
     }
 

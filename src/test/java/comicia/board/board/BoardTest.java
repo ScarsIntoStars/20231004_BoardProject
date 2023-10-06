@@ -36,14 +36,14 @@ public class BoardTest {
         return boardDTO;
     }
 
-    @Test
-    @DisplayName("보드 데이터 붓기")
-    public void boardInsert() {
-        IntStream.rangeClosed(1, 50).forEach(i -> {
-            BoardDTO boardDTO = newBoardDTO(i);
-            boardService.save(boardDTO);
-        });
-    }
+//    @Test
+//    @DisplayName("보드 데이터 붓기")
+//    public void boardInsert() {
+//        IntStream.rangeClosed(1, 50).forEach(i -> {
+//            BoardDTO boardDTO = newBoardDTO(i);
+//            boardService.save(boardDTO);
+//        });
+//    }
 
     @Test
     @DisplayName("페이징 객체 확인")
