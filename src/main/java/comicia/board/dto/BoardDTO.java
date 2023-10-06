@@ -2,6 +2,7 @@ package comicia.board.dto;
 
 import comicia.board.entity.BoardEntity;
 import comicia.board.entity.BoardFileEntity;
+import comicia.board.entity.CommentEntity;
 import comicia.board.util.UtilClass;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,6 +33,7 @@ public class BoardDTO {
     private int fileAttached;
     private List<String> originalFileName = new ArrayList<>();
     private List<String> storedFileName = new ArrayList<>();
+    private List<CommentDTO> commentDTOList = new ArrayList<>();
 
     public static BoardDTO saveToDTO(BoardEntity boardEntity) {
         BoardDTO boardDTO = new BoardDTO();

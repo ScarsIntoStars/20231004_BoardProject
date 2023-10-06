@@ -53,6 +53,16 @@
 
     </div>
 
+    <div>
+
+        <form action="/comment/save" method="post">
+            <input type="text" name="commentWriter" placeholder="작성자"> <br>
+            <input type="text" name="commentContents" placeholder="댓글내용"> <br>
+            <input type="submit" value="작성하기">
+        </form>
+
+    </div>
+
 </div>
 
 <div th:replace="~{component/footer :: footer}"></div>

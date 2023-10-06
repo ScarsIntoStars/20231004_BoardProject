@@ -1,6 +1,7 @@
 package comicia.board.entity;
 
 import comicia.board.dto.BoardDTO;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Setter
+@Setter(AccessLevel.PRIVATE)
 @Getter
 @Table(name="board_table")
 public class BoardEntity extends BaseEntity {
@@ -41,6 +42,10 @@ public class BoardEntity extends BaseEntity {
     // cascade = CascadeType.REMOVE, orphanRemoval = true 부모를 지우면 자식도 지움
     @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<BoardFileEntity> boardFileEntityList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<CommentEntity> commentEntityList = new ArrayList<>();
+
 
 
     public static BoardEntity saveToEntity(BoardDTO boardDTO) {
