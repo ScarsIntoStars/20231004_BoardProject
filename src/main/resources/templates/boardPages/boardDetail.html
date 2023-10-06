@@ -20,12 +20,26 @@
             <input class="form-control" id="exampleFormControlTextarea1" readonly th:value="${board.boardContents}"
                    rows="3">
         </div>
+
+        <table>
+            <tr th:if="${board.fileAttached == 1}">
+                <th>image</th>
+                <td th:each="fileName: ${board.storedFileName}">
+                    <img th:src="@{|/upload/${fileName}}" width="200" height="200" alt="">
+                </td>
+            </tr>
+        </table>
+
+
+
         <div class="card">
             <form action="/board/update">
                 <input type="hidden" name="id" th:value="${board.id}">
                 <input type="submit" value="수정">
             </form>
         </div>
+
+
         <div id="btn-area">
             <button class="btn btn-primary" onclick="list_fn()">목록</button>
             <!-- 수정 또는 삭제 버튼을 클릭하면 비밀번호를 입력하는 input 창이 노출되고
