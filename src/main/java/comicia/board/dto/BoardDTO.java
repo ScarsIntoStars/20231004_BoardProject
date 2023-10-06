@@ -1,6 +1,7 @@
 package comicia.board.dto;
 
 import comicia.board.entity.BoardEntity;
+import comicia.board.entity.BoardFileEntity;
 import comicia.board.util.UtilClass;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder // 객체를 만들 때 코드스타일 중 하나, 기본생성자가 무력화가 됨
@@ -25,10 +28,10 @@ public class BoardDTO {
     //    private LocalDateTime createdAt;
     private String createdAt;
 
-    private MultipartFile BoardFile;
+    private List<MultipartFile> BoardFile;
     private int fileAttached;
-    private String originalFileName;
-    private String storedFileName;
+    private List<String> originalFileName = new ArrayList<>();
+    private List<String> storedFileName = new ArrayList<>();
 
     public static BoardDTO saveToDTO(BoardEntity boardEntity) {
         BoardDTO boardDTO = new BoardDTO();
@@ -46,8 +49,10 @@ public class BoardDTO {
 
         // 파일첨부 여부에 따라 파일이름 가져가기
         if (boardEntity.getFileAttached() == 1) {
-            boardDTO.setOriginalFileName(boardEntity.getBoardFileEntityList().get(0).getOriginalFileName());
-            boardDTO.setStoredFileName(boardEntity.getBoardFileEntityList().get(0).getStoredFileName());
+            for(BoardFileEntity boardFileEntity: boardEntity.getBoardFileEntityList()) {
+                boardDTO.getOriginalFileName().add(boardFileEntity.getOriginalFileName());
+                boardDTO.getStoredFileName().add(boardFileEntity.getStoredFileName());
+            }
             boardDTO.setFileAttached(1);
         } else {
             boardDTO.setFileAttached(0);
