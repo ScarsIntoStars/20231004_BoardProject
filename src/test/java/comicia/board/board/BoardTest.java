@@ -2,6 +2,8 @@ package comicia.board.board;
 
 import comicia.board.dto.BoardDTO;
 import comicia.board.entity.BoardEntity;
+import comicia.board.entity.BoardFileEntity;
+import comicia.board.repository.BoardFileRepository;
 import comicia.board.repository.BoardRepository;
 import comicia.board.service.BoardService;
 import comicia.board.util.UtilClass;
@@ -13,8 +15,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 @SpringBootTest
@@ -36,14 +41,18 @@ public class BoardTest {
         return boardDTO;
     }
 
-//    @Test
-//    @DisplayName("보드 데이터 붓기")
-//    public void boardInsert() {
-//        IntStream.rangeClosed(1, 50).forEach(i -> {
-//            BoardDTO boardDTO = newBoardDTO(i);
-//            boardService.save(boardDTO);
-//        });
-//    }
+    @Test
+    @DisplayName("보드 데이터 붓기")
+    public void boardInsert() {
+        IntStream.rangeClosed(1, 50).forEach(i -> {
+            BoardDTO boardDTO = newBoardDTO(i);
+            try {
+                boardService.save(boardDTO);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
 
     @Test
     @DisplayName("페이징 객체 확인")
@@ -122,5 +131,25 @@ public class BoardTest {
         System.out.println("boardList.isLast() = " + boardList.isLast()); // 마지막페이지인지 여부
     }
 
+
+//    @Autowired
+//    private BoardFileRepository boardFileRepository....
+//    원래는 이렇게 쭉 길게 쓰는 코드를 아래처럼 요약 가능
+
+
+    @Test
+    @Transactional
+    @DisplayName("참조관계 확인")
+    public void findTest() {
+        // BoardEntity 조회
+        Optional<BoardEntity> boardEntityOptional = boardRepository.findById(100L); // id가 100인 글 확인
+        BoardEntity boardEntity = boardEntityOptional.get();
+        // BoardEntity에서 BoardEntity 조회
+        List<BoardFileEntity> boardFileEntityList = boardEntity.getBoardFileEntityList(); // 부모entity에서 자식 entity를 조회하는 상황 -> Transactional 필요
+        boardFileEntityList.forEach(boardFileEntity -> {
+            System.out.println(boardFileEntity.getOriginalFileName());
+            System.out.println(boardFileEntity.getStoredFileName());
+        });
+    }
 
 }

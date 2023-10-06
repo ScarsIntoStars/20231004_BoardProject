@@ -58,20 +58,18 @@ public class BoardService {
     }
 
 
-
-
     public Page<BoardDTO> findAll(int page, String type, String q) {
         page = page - 1; // db에서 page가 0부터 시작하기 때문
         int pageLimit = 5;
         Page<BoardEntity> boardEntities = null;
 
-        if(q.equals("")) {
+        if (q.equals("")) {
             // 전체목록 출력
             boardEntities = boardRepository.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "id")));
         } else {
-            if(type.equals("boardTitle")) {
+            if (type.equals("boardTitle")) {
                 boardEntities = boardRepository.findByBoardTitleContaining(q, PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "id")));
-            } else if(type.equals("boardWriter")) {
+            } else if (type.equals("boardWriter")) {
                 boardEntities = boardRepository.findByBoardWriterContaining(q, PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "id")));
             }
         }
@@ -89,26 +87,25 @@ public class BoardService {
     }
 
 
-
 //        List<BoardEntity> boardEntityList = boardRepository.findAll(Sort.by(Sort.Direction.DESC, "id")); // 맨 뒤 id는 엔티티의 이름과 같아야 함
 //        List<BoardDTO> boardDTOList = new ArrayList<>();
 //        for (BoardEntity boardEntity : boardEntityList) {
 //            BoardDTO boardDTO = BoardDTO.saveToDTO(boardEntity);
 //            boardDTOList.add(boardDTO);
 //        }
-        // boardEntity는 반복변수(entity 객체)
+    // boardEntity는 반복변수(entity 객체)
 
-        // 요즘 스타일은 아래쪽
-        // boardEntityList.forEach(boardEntity -> {
-        // boardDTOList.add(BoardDTO.saveToDTO(boardEntity);
-        // )}
+    // 요즘 스타일은 아래쪽
+    // boardEntityList.forEach(boardEntity -> {
+    // boardDTOList.add(BoardDTO.saveToDTO(boardEntity);
+    // )}
 
-//        return boardDTOList;
+    //        return boardDTOList;
 //    }
-
+    @Transactional
     public BoardDTO findById(Long id) {
         Optional<BoardEntity> optionalBoardEntity = boardRepository.findById(id);
-        if(optionalBoardEntity.isPresent()) {
+        if (optionalBoardEntity.isPresent()) {
             BoardEntity boardEntity = optionalBoardEntity.get();
             return BoardDTO.saveToDTO(boardEntity);
         } else {
@@ -121,7 +118,7 @@ public class BoardService {
      * 서비스 클래스 매서드에서 @Transactinal 붙이는 경우
      * 1. jpql로 작성된 매서드 호출할 때
      * 2. 부모엔티티에서 자식엔티티를 바로 호출할 때
-     * */
+     */
     @Transactional // jpql을 사용하면 얘를 붙여줘야 됨
     public void increaseHits(Long id) {
         boardRepository.increaseHits(id);

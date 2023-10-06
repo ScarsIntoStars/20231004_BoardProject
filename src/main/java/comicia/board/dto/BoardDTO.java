@@ -31,30 +31,42 @@ public class BoardDTO {
     private String storedFileName;
 
     public static BoardDTO saveToDTO(BoardEntity boardEntity) {
-//        BoardDTO boardDTO = new BoardDTO();
-//        boardDTO.setId(boardEntity.getId());
-//        boardDTO.setBoardTitle(boardEntity.getBoardTitle());
-//        boardDTO.setBoardWriter(boardEntity.getBoardWriter());
-//        boardDTO.setBoardPass(boardEntity.getBoardPass());
-//        boardDTO.setBoardContents(boardEntity.getBoardContents());
-//        boardDTO.setBoardHits(boardEntity.getBoardHits());
-//        ////boardDTO.setCreatedAt(boardEntity.getCreatedAt());
-////        String formattedDate = boardEntity.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-////        boardDTO.setCreatedAt(formattedDate);
-//        boardDTO.setCreatedAt(UtilClass.dateTimeFormat(boardEntity.getCreatedAt()));
+        BoardDTO boardDTO = new BoardDTO();
+        boardDTO.setId(boardEntity.getId());
+        boardDTO.setBoardTitle(boardEntity.getBoardTitle());
+        boardDTO.setBoardWriter(boardEntity.getBoardWriter());
+        boardDTO.setBoardPass(boardEntity.getBoardPass());
+        boardDTO.setBoardContents(boardEntity.getBoardContents());
+        boardDTO.setBoardHits(boardEntity.getBoardHits());
+        ////boardDTO.setCreatedAt(boardEntity.getCreatedAt());
+//        String formattedDate = boardEntity.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+//        boardDTO.setCreatedAt(formattedDate);
+        boardDTO.setCreatedAt(UtilClass.dateTimeFormat(boardEntity.getCreatedAt()));
+
+
+        // 파일첨부 여부에 따라 파일이름 가져가기
+        if (boardEntity.getFileAttached() == 1) {
+            boardDTO.setOriginalFileName(boardEntity.getBoardFileEntityList().get(0).getOriginalFileName());
+            boardDTO.setStoredFileName(boardEntity.getBoardFileEntityList().get(0).getStoredFileName());
+            boardDTO.setFileAttached(1);
+        } else {
+            boardDTO.setFileAttached(0);
+        }
+        return boardDTO;
+
 
         // 빌더사용, setter가 없음
-        BoardDTO boardDTO = BoardDTO.builder()
-                .id(boardEntity.getId())
-                .boardWriter(boardEntity.getBoardWriter())
-                .boardTitle(boardEntity.getBoardTitle())
-                .boardPass(boardEntity.getBoardPass())
-                .boardContents(boardEntity.getBoardContents())
-                .boardHits(boardEntity.getBoardHits())
-                .createdAt(UtilClass.dateTimeFormat(boardEntity.getCreatedAt()))
-                .build();
+//        BoardDTO boardDTO = BoardDTO.builder()
+//                .id(boardEntity.getId())
+//                .boardWriter(boardEntity.getBoardWriter())
+//                .boardTitle(boardEntity.getBoardTitle())
+//                .boardPass(boardEntity.getBoardPass())
+//                .boardContents(boardEntity.getBoardContents())
+//                .boardHits(boardEntity.getBoardHits())
+//                .createdAt(UtilClass.dateTimeFormat(boardEntity.getCreatedAt()))
+//                .build();
+//        return boardDTO;
 
-        return boardDTO;
     }
 
 }
