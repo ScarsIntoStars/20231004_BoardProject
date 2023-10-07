@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ public class CommentController {
     public final CommentService commentService;
 
     @PostMapping("/save")
-    public ResponseEntity save(@RequestBody CommentDTO commentDTO) {
+    public ResponseEntity save(@ModelAttribute CommentDTO commentDTO) {
         System.out.println("commentDTO : " + commentDTO);
         try {
             commentService.save(commentDTO);

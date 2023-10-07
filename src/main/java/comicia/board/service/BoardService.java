@@ -45,7 +45,7 @@ public class BoardService {
                 // 저장용 파일 이름
                 String storedFileName = System.currentTimeMillis() + "_" + originalFileName;
                 // 저장경로+파일이름 준비
-                String savePath = "D:\\springboot_img\\" + storedFileName;
+                String savePath = "C:\\data\\springboot_img\\" + storedFileName;
                 // 파일 폴더에 저장
                 boardFile.transferTo(new File(savePath));
                 // 파일 정보 board_file_table에 저장

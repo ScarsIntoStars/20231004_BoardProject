@@ -25,6 +25,7 @@ public class CommentService {
 //        commentRepository.save(commentEntity).getId();
 
     public Long save(CommentDTO commentDTO) {
+        System.out.println("commentService : " + commentDTO);
         BoardEntity boardEntity = boardRepository.findById(commentDTO.getId()).orElseThrow(() -> new NoSuchElementException());
         CommentEntity commentEntity = CommentEntity.saveToEntity(commentDTO, boardEntity);
         return commentRepository.save(commentEntity).getId();
